@@ -70,6 +70,7 @@ import {
   handleUnbindVariable,
   // Page Management commands
   handleCreatePage,
+  handleCreatePageDivider,
   handleRenamePage,
   handleDeletePage,
   handleReorderPage,
@@ -1007,6 +1008,16 @@ export function registerTools(server, bridge) {
       index: z.number().optional().describe('Position in the page list (0 = first). Defaults to end.')
     },
     async (args) => handleCreatePage(bridge, args)
+  );
+
+  // figma_create_page_divider - Create a page divider
+  server.tool(
+    'figma_create_page_divider',
+    'Create a page divider in the Figma document.',
+    {
+      name: z.string().optional().describe('Divider name (e.g. "---" or "- Design System -")')
+    },
+    async (args) => handleCreatePageDivider(bridge, args)
   );
 
   // figma_rename_page - Rename a page

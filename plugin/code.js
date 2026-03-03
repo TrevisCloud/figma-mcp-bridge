@@ -180,6 +180,11 @@ async function handleCommand(command, payload) {
     // Page Management commands
     case 'create_page':
       return await createPage(payload);
+    case 'create_page_divider': {
+      const divider = figma.createPage();
+      divider.name = payload.name || '---';
+      return { id: divider.id, name: divider.name };
+    }
     case 'rename_page':
       return await renamePage(payload);
     case 'delete_page':

@@ -3364,6 +3364,49 @@ export async function handleCreatePage(bridge, args) {
 }
 
 /**
+ * Create a page divider
+ */
+export async function handleCreatePageDivider(bridge, args) {
+  if (!bridge.isConnected()) {
+    return {
+      content: [{
+        type: 'text',
+        text: JSON.stringify({
+          error: {
+            code: 'NOT_CONNECTED',
+            message: 'Figma plugin is not connected.'
+          }
+        }, null, 2)
+      }],
+      isError: true
+    };
+  }
+
+  try {
+    const result = await bridge.sendCommand('create_page_divider', args);
+    return {
+      content: [{
+        type: 'text',
+        text: JSON.stringify(result, null, 2)
+      }]
+    };
+  } catch (error) {
+    return {
+      content: [{
+        type: 'text',
+        text: JSON.stringify({
+          error: {
+            code: error.code || 'UNKNOWN_ERROR',
+            message: error.message
+          }
+        }, null, 2)
+      }],
+      isError: true
+    };
+  }
+}
+
+/**
  * Rename a page
  */
 export async function handleRenamePage(bridge, args) {
